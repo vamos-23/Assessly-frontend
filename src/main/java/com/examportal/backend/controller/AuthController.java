@@ -29,4 +29,8 @@ public class AuthController {
         User user = userService.login(request.getEmail(), request.getPassword());
         return jwtUtil.generateToken(user.getEmail(), user.getRole());
     }
+    @GetMapping("/test")
+    public String test() {
+        return "Protected route working";
+    }
 }
