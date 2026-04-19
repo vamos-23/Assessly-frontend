@@ -1,5 +1,5 @@
 import { loginUser } from "../../api/auth";
-import { setToken } from "../../utils/auth";
+import { getUserRole, setToken } from "../../utils/auth";
 import Input from "../../components/ui/Input";
 import Button from "../../components/ui/Button";
 import AuthCard from "../../components/auth/AuthCard";
@@ -30,7 +30,12 @@ export default function Login() {
     try {
       const token = await loginUser(email, password);
       setToken(token);
-      navigate("/dashboard");
+      const role = getUserRole();
+      if (role === "ADMIN") {
+        navigate("/dashboard");
+      } else {
+        navigate("/student");
+      }
     } catch {
       alert("Invalid Credentials");
     } finally {

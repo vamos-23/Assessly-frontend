@@ -1,9 +1,10 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import ProtectedRoute from "./routes/ProtectedRoute";
+import RoleProtectedRoute from "./routes/RoleProtectedRoute";
 import PublicRoute from "./routes/PublicRoute";
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Registration";
 import AdminDashboard from "./pages/dashboard/AdminDashboard";
+import StudentDashboard from "./pages/dashboard/StudentDashboard";
 
 function App() {
   return (
@@ -28,9 +29,17 @@ function App() {
         <Route
           path="/dashboard"
           element={
-            <ProtectedRoute>
+            <RoleProtectedRoute role="ADMIN">
               <AdminDashboard />
-            </ProtectedRoute>
+            </RoleProtectedRoute>
+          }
+        />
+        <Route
+          path="/student"
+          element={
+            <RoleProtectedRoute role="STUDENT">
+              <StudentDashboard />
+            </RoleProtectedRoute>
           }
         />
         {/*Fallback*/}

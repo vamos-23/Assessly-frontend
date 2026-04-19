@@ -1,6 +1,6 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
-import { getToken } from "../utils/auth";
+import { getToken, getUserRole } from "../utils/auth";
 
 type PublicRouteProps = {
   children: React.JSX.Element;
@@ -8,8 +8,12 @@ type PublicRouteProps = {
 
 export default function PublicRoute({ children }: PublicRouteProps) {
   const token = getToken();
-  if (token) {
+  if (!token) return children;
+  const role = getUserRole();
+  if (role === "ADMIN") {
     return <Navigate to="/dashboard" />;
   }
-  return children;
+  if (role === "STUDENT") {
+    return <Navigate to="/student" />;
+  }
 }
