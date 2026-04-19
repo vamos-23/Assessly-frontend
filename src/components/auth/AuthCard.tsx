@@ -26,7 +26,7 @@ export default function AuthCard({
                   bg-white/5 backdrop-blur-xl 
                   border border-white/10 
                   shadow-[0_20px_60px_rgba(0,0,0,0.6)] space-y-6"
-        style={{width: title == "Login" ? 400 : 440}}
+        style={{ width: title == "Login to Assessly Exam Portal" ? 400 : 440 }}
       >
         <h1 className="text-2xl font-semibold text-center text-white">
           {title}
