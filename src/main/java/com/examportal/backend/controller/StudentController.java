@@ -15,14 +15,9 @@ import java.util.List;
 @CrossOrigin("*")
 public class StudentController {
 
-    @Autowired
-    private ExamService examService;
-
-    @Autowired
-    private QuestionService questionService;
-
-    @Autowired
-    private SubmissionService submissionService;
+    @Autowired private ExamService examService;
+    @Autowired private QuestionService questionService;
+    @Autowired private SubmissionService submissionService;
 
     @GetMapping("/exams")
     public List<Exam> getAllExams() {
@@ -35,13 +30,9 @@ public class StudentController {
     }
 
     @PostMapping("/exams/submit")
-    public Submission submitExam(
-            @Valid @RequestBody SubmitExamRequest request,
-            Authentication auth
-    ) {
+    public Submission submitExam(@RequestBody SubmitExamRequest request, Authentication auth) {
         return submissionService.submitExam(request, auth.getName());
     }
-
     @GetMapping("/results")
     public List<Submission> getResults(Authentication auth) {
         return submissionService.getByUser(auth.getName());

@@ -14,7 +14,7 @@ public class Submission {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String userEmail;
-    private int score;
+    private double score;
 
     @ManyToOne
     @JoinColumn(name = "exam_id")

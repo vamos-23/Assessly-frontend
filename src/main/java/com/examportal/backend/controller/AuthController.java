@@ -1,5 +1,6 @@
 package com.examportal.backend.controller;
 
+import com.examportal.backend.dto.AuthResponse;
 import com.examportal.backend.dto.LoginRequest;
 import com.examportal.backend.entity.User;
 import com.examportal.backend.security.JWTUtil;
@@ -20,15 +21,19 @@ public class AuthController {
     private JWTUtil jwtUtil;
 
     @PostMapping("/register")
-    public User register(@Valid @RequestBody User user) {
-        return userService.register(user);
+    public AuthResponse register(@Valid @RequestBody User user) {
+        User savedUser = userService.register(user);
+        String token = jwtUtil.generateToken(savedUser.getEmail(), savedUser.getRole());
+        return new AuthResponse(token, savedUser.getName(), savedUser.getEmail(), savedUser.getRole());
     }
 
     @PostMapping("/login")
-    public String login(@Valid @RequestBody LoginRequest request) {
+    public AuthResponse login(@Valid @RequestBody LoginRequest request) {
         User user = userService.login(request.getEmail(), request.getPassword());
-        return jwtUtil.generateToken(user.getEmail(), user.getRole());
+        String token = jwtUtil.generateToken(user.getEmail(), user.getRole());
+        return new AuthResponse(token, user.getName(), user.getEmail(), user.getRole());
     }
+
     @GetMapping("/test")
     public String test() {
         return "Protected route working";

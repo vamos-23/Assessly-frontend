@@ -11,6 +11,7 @@ import java.util.Date;
 public class JWTUtil {
 
     private final String SECRET = "mysecretkeymysecretkeymysecretkey123";
+    private final long EXPIRATION_TIME = 1000L * 60 * 60 * 24 * 7;
 
     private Key getSigningKey() {
         return Keys.hmacShaKeyFor(SECRET.getBytes());
@@ -21,7 +22,7 @@ public class JWTUtil {
                 .setSubject(email)
                 .claim("role", role)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60))
+                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
