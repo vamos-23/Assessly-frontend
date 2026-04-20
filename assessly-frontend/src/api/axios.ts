@@ -1,7 +1,7 @@
 import axios from "axios";
 import { clearToken } from "../utils/auth";
 const api = axios.create({
-  baseURL: "https://exam-portal-system.onrender.com",
+  baseURL: "https://assessly-t8qe.onrender.com",
 });
 
 api.interceptors.request.use((config) => {
