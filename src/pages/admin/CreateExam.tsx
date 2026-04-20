@@ -65,7 +65,7 @@ export default function CreateExam({ onCreate }: Props) {
         <button
           onClick={handleSubmit}
           disabled={loading}
-          className={`transition p-3 rounded-lg font-medium ${
+          className={`transition p-3 rounded-lg font-medium cursor-pointer ${
             loading
               ? "bg-blue-800 cursor-not-allowed opacity-70"
               : "bg-blue-600 hover:bg-blue-700 text-white"

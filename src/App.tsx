@@ -5,6 +5,8 @@ import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Registration";
 import AdminDashboard from "./pages/dashboard/AdminDashboard";
 import StudentDashboard from "./pages/dashboard/StudentDashboard";
+import CreateQuestions from "./pages/admin/CreateQuestions";
+import Submissions from "./pages/admin/Submissions";
 
 function App() {
   return (
@@ -39,6 +41,22 @@ function App() {
           element={
             <RoleProtectedRoute role="STUDENT">
               <StudentDashboard />
+            </RoleProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/exams/:examId"
+          element={
+            <RoleProtectedRoute role="ADMIN">
+              <CreateQuestions />
+            </RoleProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/submissions"
+          element={
+            <RoleProtectedRoute role="ADMIN">
+              <Submissions />
             </RoleProtectedRoute>
           }
         />
