@@ -4,9 +4,11 @@ import PublicRoute from "./routes/PublicRoute";
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Registration";
 import AdminDashboard from "./pages/dashboard/AdminDashboard";
-import StudentDashboard from "./pages/dashboard/StudentDashboard";
 import CreateQuestions from "./pages/admin/CreateQuestions";
 import Submissions from "./pages/admin/Submissions";
+import AttemptExam from "./pages/student/AttemptExam";
+import StudentDashboard from "./pages/dashboard/StudentDashboard";
+import StudentResults from "./pages/student/StudentResults";
 
 function App() {
   return (
@@ -29,7 +31,7 @@ function App() {
           }
         />
         <Route
-          path="/dashboard"
+          path="/admin/dashboard"
           element={
             <RoleProtectedRoute role="ADMIN">
               <AdminDashboard />
@@ -37,7 +39,7 @@ function App() {
           }
         />
         <Route
-          path="/student"
+          path="/student/dashboard"
           element={
             <RoleProtectedRoute role="STUDENT">
               <StudentDashboard />
@@ -57,6 +59,23 @@ function App() {
           element={
             <RoleProtectedRoute role="ADMIN">
               <Submissions />
+            </RoleProtectedRoute>
+          }
+        />
+        <Route
+          path="/student/exam/:examId"
+          element={
+            <RoleProtectedRoute role="STUDENT">
+              <AttemptExam />
+            </RoleProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/student/results"
+          element={
+            <RoleProtectedRoute role="STUDENT">
+              <StudentResults />
             </RoleProtectedRoute>
           }
         />
