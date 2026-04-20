@@ -6,7 +6,7 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="h-screen bg-[#0B1120] text-white relative overflow-hidden">
+    <div className="h-screen scroll-auto bg-[#0B1120] text-white relative overflow-hidden">
       <div
         className="absolute inset-0 
         bg-[linear-gradient(to_right,rgba(255,255,255,0.02)_1px,transparent_1px),
