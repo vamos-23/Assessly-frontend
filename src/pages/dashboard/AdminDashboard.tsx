@@ -6,39 +6,42 @@ import {
   deleteExam,
   getAdminStats,
 } from "../../api/admin";
+import { getStoredUser } from "../../utils/auth"; // Import your helper
 import type { Exam, CreateExamRequest } from "../../types/exam";
 import type { AdminDashboardStats } from "../../types/dashboardStats";
 import CreateExam from "../admin/CreateExam";
 import ExamTable from "../admin/ExamTable";
 import StatsCards from "../../components/dashboard/StatCard";
 import { useNavigate } from "react-router-dom";
+import { LayoutDashboard } from "lucide-react";
 
 export default function AdminDashboard() {
   const [exams, setExams] = useState<Exam[]>([]);
   const [stats, setStats] = useState<AdminDashboardStats | null>(null);
   const [loading, setLoading] = useState(true);
-
   const navigate = useNavigate();
+
+  // Use the helper for clean initialization
+  const [adminName] = useState<string>(() => {
+    const user = getStoredUser();
+    return user?.name || "Admin";
+  });
 
   useEffect(() => {
     const fetchData = async () => {
-      setLoading(true);
       try {
         const [examData, statsData] = await Promise.all([
           getExams(),
           getAdminStats(),
         ]);
-
         setExams(examData);
         setStats(statsData);
       } catch (error) {
         console.error("Fetch Error:", error);
-        alert("Failed to load dashboard data");
       } finally {
         setLoading(false);
       }
     };
-
     fetchData();
   }, []);
 
@@ -48,22 +51,19 @@ export default function AdminDashboard() {
       setExams((prev) => [newExam, ...prev]);
       const updatedStats = await getAdminStats();
       setStats(updatedStats);
-    } catch (error) {
-      console.error("Create Error:", error);
-      alert("Failed to create exam. Please try again.");
+    } catch {
+      alert("Failed to create exam.");
     }
   };
 
   const handleDelete = async (id: number) => {
     if (!confirm("Are you sure you want to delete this exam?")) return;
-
     try {
       await deleteExam(id);
       setExams((prev) => prev.filter((e) => e.id !== id));
       const updatedStats = await getAdminStats();
       setStats(updatedStats);
-    } catch (error) {
-      console.error("Delete Error:", error);
+    } catch {
       alert("Failed to delete exam.");
     }
   };
@@ -73,21 +73,25 @@ export default function AdminDashboard() {
       <div className="max-w-6xl mx-auto space-y-10 pb-20">
         <div className="relative flex items-start justify-between">
           <div className="absolute -left-4 top-0 w-24 h-24 bg-blue-500/10 blur-[80px] -z-10" />
-          <div>
+          <div className="space-y-1">
+            <div className="flex items-center gap-2 text-blue-400 font-bold text-xs uppercase tracking-widest">
+              <LayoutDashboard size={14} /> Management Portal
+            </div>
             <h1 className="text-4xl font-extrabold text-white tracking-tight">
-              Admin Dashboard
+              Welcome, {adminName}
             </h1>
-            <p className="text-gray-400 mt-2 text-lg">
+            <p className="text-gray-400 text-lg">
               Manage exams and monitor platform activity
             </p>
           </div>
           <button
             onClick={() => navigate("/admin/submissions")}
-            className="bg-white/10 hover:bg-green-500/20 transition cursor-pointer px-5 py-2.5 rounded-xl text-sm font-medium text-white border border-white/10"
+            className="bg-white/10 hover:bg-green-500/20 transition px-5 py-2.5 rounded-xl text-sm font-medium text-white border border-white/10"
           >
             View Submissions
           </button>
         </div>
+
         {!loading && stats ? (
           <StatsCards stats={stats} />
         ) : (
@@ -100,6 +104,7 @@ export default function AdminDashboard() {
             ))}
           </div>
         )}
+
         <div className="space-y-6">
           <div className="flex items-center gap-4">
             <h2 className="text-xl font-semibold text-white/90">
@@ -115,7 +120,7 @@ export default function AdminDashboard() {
             <h2 className="text-xl font-semibold text-white/90">
               Active Exams
             </h2>
-            <div className="h-1px flex-1 bg-white/10" />
+            <div className="h-px flex-1 bg-white/10" />
           </div>
           {loading ? (
             <div className="py-20 text-center space-y-4">

@@ -16,12 +16,12 @@ export const getToken = () => {
 
 export const clearToken = () => {
   localStorage.removeItem("token");
+  localStorage.removeItem("user");
 };
 
 export const getUserRole = (): Role | null => {
   const token = getToken();
   if (!token) return null;
-
   try {
     const decoded = jwtDecode<CustomJwtPayload>(token);
     const role = decoded.role;
@@ -29,6 +29,16 @@ export const getUserRole = (): Role | null => {
       return role;
     }
     return null;
+  } catch {
+    return null;
+  }
+};
+
+export const getStoredUser = () => {
+  const user = localStorage.getItem("user");
+  if (!user) return null;
+  try {
+    return JSON.parse(user);
   } catch {
     return null;
   }

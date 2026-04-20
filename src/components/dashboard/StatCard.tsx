@@ -14,7 +14,7 @@ export default function StatsCards({ stats }: { stats: AdminDashboardStats }) {
       label: "Total Exams",
       value: stats.totalExams,
       icon: BookOpen,
-      color: "from-red-700/20 to-transparent",
+      color: "from-orange-700/20 to-transparent",
     },
     {
       label: "Total Questions",
