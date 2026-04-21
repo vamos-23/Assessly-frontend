@@ -23,7 +23,7 @@ public class Question {
     @Enumerated(EnumType.STRING)
     private QuestionType type;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(
             name = "question_correct_answers",
             joinColumns = @JoinColumn(name = "question_id")

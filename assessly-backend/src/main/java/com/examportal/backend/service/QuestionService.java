@@ -31,7 +31,7 @@ public class QuestionService {
         if (!examRepository.existsById(examId)) {
             throw new RuntimeException("Exam not found");
         }
-        return questionRepository.findByExamId(examId);
+        return questionRepository.findByExam_Id(examId);
     }
 
     public void deleteQuestion(Long id) {
